@@ -1,4 +1,3 @@
-from distutils import log
 # -*- coding: utf-8 -*-
 import logging
 
