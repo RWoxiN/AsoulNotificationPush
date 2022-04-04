@@ -22,5 +22,9 @@ class config():
         {
             "uid": "672342685",
             "nickname": "乃琳"
+        },
+        {
+            "uid": "703007996",
+            "nickname": "asoul"
         }
     ]
