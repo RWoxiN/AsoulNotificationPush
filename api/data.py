@@ -10,18 +10,19 @@ class asoul_data():
     def __init__(self, uid):
         self.uid = uid
         self.live_notification = False
-        self.fetch_data()
 
     def fetch_data(self):
-        if not self.fetch_user_info():
-            return
-        self.fetch_space_history()
+        if self.fetch_user_info() is None:
+            return None
+        if self.fetch_space_history() is None:
+            return None
+        return True
 
     def fetch_user_info(self):
         url = self.url_info + '?mid=' + self.uid
         r = requests.get(url)
         if r.status_code != 200:
-            log_str = 'UID：{}'.format(self.uid)
+            log_str = 'UID：{}, status_code: {}, content: {}'.format(self.uid, r.status_code, r.content)
             logging.error(log_str)
             return None
         user_info_json = json.loads(r.content)
@@ -65,6 +66,8 @@ class asoul_data():
         url = self.url_dynamic + '?host_uid=' + self.uid
         r = requests.get(url)
         if r.status_code != 200:
+            log_str = 'status_code: {}, content: {}'.format(r.status_code, r.content)
+            logging.error(log_str)
             return None
         space_history_json = json.loads(r.content)
         space_history_code = space_history_json.get('code')
@@ -78,10 +81,6 @@ class asoul_data():
             card_type = desc.get('type')
             card_dynamic_id = desc.get('dynamic_id_str')
 
-            card_user = desc.get('user_profile')
-            card_user_id = card_user.get('info').get('uid')
-            card_user_name = card_user.get('info').get('uname')
-
             dynamic, create_flag = DynamicModel.get_or_create(
                 dynamic_id=card_dynamic_id,
                 defaults={
@@ -91,11 +90,12 @@ class asoul_data():
                 }
             )
 
-
-            log_str = '动态消息卡片：类型：{}，动态ID：{}，{}'.format(
-                dynamic.type, dynamic.dynamic_id, '未读' if dynamic.unread else '已读'
-            )
-            logging.info(log_str)
+            if create_flag:
+                log_str = '动态消息卡片：类型：{}，动态ID：{}，{}'.format(
+                    dynamic.type, dynamic.dynamic_id, '未读' if dynamic.unread else '已读'
+                )
+                logging.info(log_str)
+        return True
             
     def get_push_data(self):
         push_data = []
