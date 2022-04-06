@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from .config import *
 from .data import * 
+from .config import *
 from .logger import logging
 from .push import wx_push
 
 class anp_api():
     def __init__(self):
-        self.members = config.members
+        self.a_config = anp_config()
+        self.members = self.a_config.load_config().get('members')
 
     def start(self):
         logging.info("----------Start----------")

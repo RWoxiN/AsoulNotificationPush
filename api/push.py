@@ -2,15 +2,17 @@
 
 import json
 import requests
-
+from .config import *
 
 def wx_push(message):
     touser = '@all'
     
-    # TODO: 填入自己的配置
-    agentid = '应用ID'
-    secret = ''
-    corpid = '企业ID'
+    a_config = anp_config()
+    wx_config = a_config.load_config().get('push').get('wx_config')
+
+    agentid = wx_config.get('agentid')
+    secret = wx_config.get('secret')
+    corpid = wx_config.get('corpid')
 
     json_dict = {
         "touser": touser,

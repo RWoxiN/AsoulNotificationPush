@@ -43,13 +43,17 @@ class asoul_data():
                 'room_id': user_info_live_room_id
             }
         )[0]
-
-        if not upuser.is_live and bool(user_info_live_status):
-            self.live_notification = True
-            upuser.is_live = True
-        else:
-            upuser.is_live = False
         
+        if not upuser.is_live:
+            if bool(user_info_live_status):
+                # 数据库记录上次未开播，实际开播
+                self.live_notification = True
+                upuser.is_live = True
+        else:
+            if not bool(user_info_live_status):
+                # 数据库记录上次开播，实际未开播
+                upuser.is_live = False
+
         upuser.save()
 
         self.upuser = upuser
