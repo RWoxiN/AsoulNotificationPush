@@ -2,9 +2,10 @@
 import os, json
 class anp_config():
 
-    version = 'v1.0.0'
+    version = 'v1.0.1'
     config = {
         "version": "{}".format(version),
+        "low_version_python_compatible": False,
         "push": {
             "wx_config": {
                 "agentid": "",
@@ -51,8 +52,9 @@ class anp_config():
             self.load_config()
 
     def update_config_version(self, local_config):
-        # if local_config.get('version') == 'v1.0.0':
-        #     local_config['version'] = 'v1.0.1'
+        if local_config.get('version') == 'v1.0.0':
+            local_config['low_version_python_compatible'] = False
+            local_config['version'] = 'v1.0.1'
         self.config = local_config
         self.update_config()
 

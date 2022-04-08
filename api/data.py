@@ -35,6 +35,9 @@ class asoul_data():
         user_info_live_room = user_info_data.get('live_room')
         user_info_live_status = user_info_live_room.get('liveStatus')
         user_info_live_room_id = user_info_live_room.get('roomid')
+        user_info_live_room_title = user_info_live_room.get('title')
+
+        self.live_room_title = user_info_live_room_title
 
         upuser = UpUserModel.get_or_create(
             uid=user_info_mid, 
@@ -106,7 +109,7 @@ class asoul_data():
         if self.live_notification:
             push_body = {
                 "title": "成员直播提醒",
-                "data": "{}正在直播".format(self.upuser.uname),
+                "data": "{}正在直播：\n{}".format(self.upuser.uname, self.live_room_title),
                 "url_data": "前往直播间",
                 "url": "https://live.bilibili.com/{}".format(self.upuser.room_id)
             }

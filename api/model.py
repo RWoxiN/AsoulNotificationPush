@@ -20,8 +20,10 @@ class DynamicModel(BaseModel):
     owner = ForeignKeyField(UpUserModel, backref='dynamics')
 
     # 1: 转发
-    # 4: 动态
+    # 2: 图文动态
+    # 4: 文字动态
     # 8: 视频
+    # 64: 专栏
     type = IntegerField()
     dynamic_id = CharField(max_length=50, unique=True)
 
