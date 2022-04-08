@@ -109,7 +109,7 @@ class asoul_data():
         if self.live_notification:
             push_body = {
                 "title": "成员直播提醒",
-                "data": "{}正在直播：\n{}".format(self.upuser.uname, self.live_room_title),
+                "data": "{}正在直播\n{}".format(self.upuser.uname, self.live_room_title),
                 "url_data": "前往直播间",
                 "url": "https://live.bilibili.com/{}".format(self.upuser.room_id)
             }
