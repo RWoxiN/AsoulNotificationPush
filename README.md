@@ -2,6 +2,8 @@
 
 该脚本获取 A-SOUL 成员新动态以及直播状态，并推送到企业微信中。
 
+2023.01.20: 因为B站api改动等原因大概已经用不了了，懒得排查改了，就这样吧
+
 https://github.com/RWoxiN/AsoulNotificationPush
 
 # 图示
